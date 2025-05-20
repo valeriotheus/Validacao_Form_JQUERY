@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FATEC - Cálculo de Salário</title>
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous"
+    >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="css/estilo.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #690000;">
+        <a class="navbar-brand" href="index.html">FATEC - Cálculo de Salário</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Alterna navegação"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html" title="Cadastro de Funcionário">
+                    <i class="bi bi-input-cursor-text"></i>
+                    Cadastro de Funcionário
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container mt-3">
+        <div class="row mb-3">
+            <div class="col-md-12 col-sm-12 mb-2">
+                <form id="salarioForm" onsubmit="event.preventDefault(); calcularSalario();">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="txtnome">Nome</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Nome aqui"
+                                id="txtnome"
+                                required
+                                name="txtnome"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="txtidade">Idade</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                placeholder="Idade aqui"
+                                id="txtidade"
+                                name="txtidade"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="numdependentes">Número de Dependentes</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="numdependentes"
+                                name="numdependentes"
+                                required
+                                placeholder="Número de Dependentes aqui"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="txtsalario">Salário Bruto</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                placeholder="Salário Bruto aqui"
+                                id="txtsalario"
+                                name="txtsalario"
+                                required
+                                step="0.5"
+                            >
+                        </div>
+                        <button type="submit" class="btn btn-danger">Enviar</button>
+                    </fieldset>
+                </form>
+
+                <div id="resultado" class="mt-4">
+                    <h4>Resultado</h4>
+                    <p id="resultadoSalario"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p><a href="https://fatecitu.cps.sp.gov.br/" target="_blank">FATEC ITU</a></p>
+            <p>© Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <script>
+        function calcularSalario() {
+            const nome = document.getElementById("txtnome").value;
+            const idade = parseInt(document.getElementById("txtidade").value);
+            const salarioBruto = parseFloat(document.getElementById("txtsalario").value);
+            const dependentes = parseInt(document.getElementById("numdependentes").value);
+
+            let bonusIdade = (idade > 50) ? 300 : 200;
+
+            const inss = salarioBruto * 0.08;
+
+            const valeTransporte = salarioBruto * 0.05;
+
+            const bonusDependentes = dependentes * 50;
+
+            const salarioLiquido = salarioBruto - inss - valeTransporte + bonusIdade + bonusDependentes;
+
+            const resultadoSalario = document.getElementById("resultadoSalario");
+            resultadoSalario.innerHTML = `
+                <strong>Nome:</strong> ${nome}<br>
+                <strong>Idade:</strong> ${idade} anos<br>
+                <strong>Salário Bruto:</strong> R$ ${salarioBruto.toFixed(2)}<br>
+                <strong>INSS (8%):</strong> R$ ${inss.toFixed(2)}<br>
+                <strong>Vale Transporte (5%):</strong> R$ ${valeTransporte.toFixed(2)}<br>
+                <strong>Bônus de Idade:</strong> R$ ${bonusIdade}<br>
+                <strong>Bônus por Dependentes:</strong> R$ ${bonusDependentes}<br>
+                <strong>Salário Líquido:</strong> R$ ${salarioLiquido.toFixed(2)}
+            `;
+
+            alert(`Nome: ${nome}\n` +
+                `Número de Dependentes: ${dependentes}\n` +
+                `Salário Bruto: R$ ${salarioBruto.toFixed(2)}\n` +
+                `INSS: R$ ${inss.toFixed(2)}\n` +
+                `Vale Transporte: R$ ${valeTransporte.toFixed(2)}\n` +
+                `Salário Líquido: R$ ${salarioLiquido.toFixed(2)}`
+            );
+        }
+    </script>
+</body>
+</html>
